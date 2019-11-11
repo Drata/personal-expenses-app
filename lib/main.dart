@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
     // Transaction(
-    //     id: 't1', title: 'Zapatos', amount: 50.54, date: DateTime.now()),
+    // id: 't1', title: 'Zapatos', amount: 50.54, date: DateTime.now()),
     // Transaction(id: 't2', title: 'Comida', amount: 30.99, date: DateTime.now()),
     // Transaction(id: 't3', title: 'Cine', amount: 12.99, date: DateTime.now())
   ];
@@ -43,15 +43,23 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final newTx = Transaction(
         title: title,
         amount: amount,
-        date: DateTime.now(),
+        date: date,
         id: DateTime.now().toString());
 
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
     });
   }
 
@@ -89,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               child: Chart(_recentTransactions),
             ),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
